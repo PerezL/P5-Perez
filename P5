@@ -110,8 +110,8 @@ class Person {
   String name;
 
   Person( String friend ) {
-    w = random(20, 50);     // Random weight from 20 to 50
-    h = random(50, 100);    // Random height from 50 to 100
+    w = random(20, 100);     // Random weight from 20 to 50
+    h = random(20, 100);    // Random height from 50 to 100
     r = random(255);        // Random red 
     g = random(255);        // Random green 
     b = random(255);        // Random blue 
