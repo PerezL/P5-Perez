@@ -77,7 +77,7 @@ void order ( Person[] p, int last) {
  void rand(Person[] p, int last) {
  
  for (int j = 0; j < last; j+=1) {
- p[j] = int(random(0,100));
+ // WTF //
  }
  } 
  */
