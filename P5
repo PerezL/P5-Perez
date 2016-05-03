@@ -3,9 +3,12 @@
 String title=  "Project 5 - Final";
 String author= "Loic Perez";
 
-String name[]= { 
-  "Bridge", "Cathy", "Titi", "Lizzie", "Bob", "Metek", "MacFarmer", "TeFian", "Pepite"
-};
+String instruction1= "Use the letter 't' to move the tallest at the end";
+String instruction2= "Use the letter 'f' to move the fattest at the end";
+String instruction3= "Use the letter 'r' to reset the guys with a new random weight and height";
+String instruction4= "Use the letter 'o' to order from the shortest to the tallest";
+
+String name[]= {"Bridge", "Cathy", "Titi", "Lizzie", "Bob", "Metek", "MacFarmer", "TeFian", "Pepite"};
 int amount=9;
 
 Person[] people=  new Person[amount];
@@ -30,12 +33,13 @@ void draw() {
   background(210, 210, 210);
   scene();
   displayPeople();
+  message();
 }
 
 void keyPressed() {
   if      (key == 'e') exit();
   else if (key == 't') tall(people, amount);
-  else if (key == 's') fat(people, amount);
+  else if (key == 'f') fat(people, amount);
   else if (key == 'o') order(people, amount);
   else if (key == 'r') rand(people, amount);
 }
@@ -126,8 +130,8 @@ class Person {
     // Display name, weight and height of each person
     fill(0);
     text(name, x-20, y+20);          // Name
-    text(int(h), x-20, y+35);        // Height
-    text(int(w), x-20, y+48);        // Weight
+    text(int(h), x-20, y+36);        // Height
+    text(int(w), x-20, y+54);        // Weight
     //fill(0);
     //text( name, 2+x-w/2, y-h/2 );  Name on the guy: not necessary...
   }
@@ -137,14 +141,29 @@ class Person {
     // Mouth
     fill(255, 0, 0);                  // Red part
     rect(x, headY+6, 4+w/4, 6);
-    fill(255);                      // White part
+    fill(255);                        // White part
     rect(x, headY+6, w/4, 2);
     // Eyes
-    fill(255);                      // White part
+    fill(255);                        // White part
     ellipse(x-6, headY-6, 8, 8);
     ellipse(x+6, headY-6, 8, 8);
-    fill(0, 0, 255);                // Blue part
+    fill(0, 0, 255);                  // Blue part
     ellipse(x-6, headY-6, 4, 4);
     ellipse(x+6, headY-6, 4, 4);
   }
+}
+
+void message() {
+  int space = 20;
+  
+  fill(0);
+  textSize(12);
+  
+  text(title, 20,15);
+  text(author, 20,30);
+  
+  text(instruction1, width/2, 50);
+  text(instruction2, width/2, 50 + space);
+  text(instruction3, width/2, 50 + (space*2));
+  text(instruction4, width/2, 50 + (space*3));
 }
