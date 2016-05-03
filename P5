@@ -1,5 +1,4 @@
-// P5
-// Loic Perez
+// Project 5 - Loic Perez
 
 String title=  "Project 5 - Final";
 String author= "Loic Perez";
@@ -35,24 +34,53 @@ void draw() {
 
 void keyPressed() {
   if      (key == 'e') exit();
-   else if (key == 'b') tall();
+  else if (key == 't') tall(people, amount);
+  else if (key == 's') fat(people, amount);
+  else if (key == 'o') order(people, amount);
 }
 
-// Move the tallest in the end
-void tall() {
-  int k = 0; // The tallest
-  
-  for (int j = 1; j < amount; j+=1) {
-    if (people[j] > people[k]) k = j;
+// Exchange values
+void xchange(Person[] p, int a, int b) {
+  Person temp;
+  temp=  p[a];
+  p[a]=  p[b];
+  p[b]=  temp;
+}
+
+// Move the tallest to the end
+void tall( Person[] p, int last ) {
+  int k=0;
+  for (int j = 1; j < last; j+=1 ) {
+    if (p[j].h > p[k].h) k=j;
   }
-  
-  //
-  float save;
-  save = people[k].x;
-  people[k].x =  people[last].x;  // Move k to the end
-  people[last].x = save; // Move last to old x of tallest
+  xchange(p, k, last-1);
 }
 
+// Move the fattest to the end
+void fat( Person[] p, int last ) {
+  int k=0;
+  for (int j = 1; j < last; j+=1 ) {
+    if (p[j].w > p[k].w) k=j;
+  }
+  xchange(p, k, last-1);
+}
+
+// Order the number from the smallest to the biggest
+void order ( Person[] p, int last) {
+  for (int j = last; j > 1; j-= 1) {
+    tall(p, j);
+  }
+}
+
+/*
+// Reset with a random value
+ void rand(Person[] p, int last) {
+ 
+ for (int j = 0; j < last; j+=1) {
+ p[j] = int(random(0,100));
+ }
+ } 
+ */
 
 void scene() {
   noStroke();
@@ -72,7 +100,7 @@ void displayPeople() {
 }  
 
 class Person {
-  float w, h;
+  float x, w, h;
   float r, g, b;
   String name;
 
