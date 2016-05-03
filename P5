@@ -37,6 +37,7 @@ void keyPressed() {
   else if (key == 't') tall(people, amount);
   else if (key == 's') fat(people, amount);
   else if (key == 'o') order(people, amount);
+  else if (key == 'r') rand(people, amount);
 }
 
 // Exchange values
@@ -72,15 +73,15 @@ void order ( Person[] p, int last) {
   }
 }
 
-/*
+
 // Reset with a random value
  void rand(Person[] p, int last) {
  
  for (int j = 0; j < last; j+=1) {
- // WTF //
+ p[j].w = random(20,100);
+ p[j].h = random(20,100);
  }
  } 
- */
 
 void scene() {
   noStroke();
