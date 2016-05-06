@@ -1,7 +1,7 @@
 // Project 5 - Loic Perez
 
 String title=  "Project 5 - Final";
-String author= "Loic Perez";
+String author= "Loïc Perez";
 
 String instruction1= "Use the letter 't' to move the tallest at the end";
 String instruction2= "Use the letter 'f' to move the fattest at the end";
@@ -14,12 +14,28 @@ int amount=9;
 Person[] people=  new Person[amount];
 
 float surface;
+float sky;
+
+float cloudX = 100, cloudY = 100;
+float cloudMovement = 1;
+float amountCloud=9;
 
 int last;
 
+int buttonY = 200;
+int buttonSize = 80;
+
+boolean buttonOver1 = false;
+boolean buttonOver2 = false;
+boolean buttonOver3 = false;
+boolean buttonOver4 = false;
+
+int [] buttonX = {520, 640, 760, 880};
+
 void setup() {
   size(960, 640);
-  surface=  height-100;
+  surface = height-100;
+  sky = height/3;
   display();
 }
 
@@ -29,10 +45,15 @@ void display() {
   }
 }
 
+
 void draw() {
-  background(210, 210, 210);
+  background(90, 120, 180);
+
   scene();
   displayPeople();
+  cloud();
+  button();
+  update();
   message();
 }
 
@@ -79,13 +100,13 @@ void order ( Person[] p, int last) {
 
 
 // Reset with a random value
- void rand(Person[] p, int last) {
- 
- for (int j = 0; j < last; j+=1) {
- p[j].w = random(20,100);
- p[j].h = random(20,100);
- }
- } 
+void rand(Person[] p, int last) {
+
+  for (int j = 0; j < last; j+=1) {
+    p[j].w = random(20, 100);
+    p[j].h = random(20, 100);
+  }
+} 
 
 void scene() {
   noStroke();
@@ -97,7 +118,7 @@ void scene() {
 void displayPeople() {
   float x=100, y=surface;  // First person displayed at x=100 & y= surface
   fill(0);
-  text("Height:\nWeight:", 10, surface+35);  // Text weight & height
+  text("Height:\nWeight:", 10, surface+35);  // Text height & weight
   for (int j = 0; j < amount; j+= 1) {
     people[j].show(x, y);
     x =  x + 100;
@@ -155,15 +176,95 @@ class Person {
 
 void message() {
   int space = 20;
-  
+
   fill(0);
   textSize(12);
-  
-  text(title, 20,15);
-  text(author, 20,30);
-  
+
+  text(title, 20, 15);
+  text(author, 20, 30);
+
   text(instruction1, width/2, 50);
   text(instruction2, width/2, 50 + space);
   text(instruction3, width/2, 50 + (space*2));
   text(instruction4, width/2, 50 + (space*3));
+  
+  text("Tallest", buttonX[0]-20, buttonY+5);
+  text("Fattest", buttonX[1]-20, buttonY+5);
+  text("Order", buttonX[2]-15, buttonY+5);
+  text("Random", buttonX[3]-18, buttonY+5);
+}
+
+void cloud() {
+  fill(255, 255, 255);
+
+  float tempX = cloudX, tempY = cloudY, tempW = 60, tempH = 25;
+
+  for (int j=0; j < amountCloud; j+=1) {  // Loop to generate the clouds
+    ellipse(tempX, tempY, tempW, tempH);
+    tempX = tempX - tempW;
+    tempY = tempY + tempH;
+    tempW *= 0.8;
+    tempH *= 0.8;
+  }
+  cloudX = cloudX + cloudMovement;   // Movement
+
+  if (cloudX > width + 250) {  // Reset the cloud and generates a random number at a random height
+    cloudX = 0;
+    cloudY = random(0, sky);
+    amountCloud = random(1, 9);
+  }
+}
+
+void mousePressed() {
+    if      (buttonOver1) {
+      tall(people, amount);
+  } else if (buttonOver2) {
+      fat(people, amount);
+  } else if (buttonOver3) {
+      order(people, amount);
+  } else if (buttonOver4) {
+      rand(people, amount);
+  }
+}
+
+void button() {
+  float last = 4;
+
+  fill(60, 90, 150);
+
+  for ( int j = 0; j < last; j+=1) {
+    ellipse(buttonX[j], buttonY, buttonSize, buttonSize);
+  }
+}
+
+void update() {
+  if (overButton (buttonX[0], buttonY, buttonSize, buttonSize) ) {
+    buttonOver1 = true;
+    buttonOver2 = false;
+    buttonOver3 = false;
+    buttonOver4 = false;
+  } else if (overButton (buttonX[1], buttonY, buttonSize, buttonSize) ) {
+    buttonOver1 = false;
+    buttonOver2 = true;
+    buttonOver3 = false;
+    buttonOver4 = false;
+  } else if (overButton (buttonX[2], buttonY, buttonSize, buttonSize) ) {
+    buttonOver1 = false;
+    buttonOver2 = false;
+    buttonOver3 = true;
+    buttonOver4 = false;
+  } else if (overButton (buttonX[3], buttonY, buttonSize, buttonSize) ) {
+    buttonOver1 = false;
+    buttonOver2 = false;
+    buttonOver3 = false;
+    buttonOver4 = true;
+  }
+}
+
+boolean overButton(int x, int y, int width, int height) {
+  if (mouseX >= x-40 && mouseX <= x+40 && mouseY >= y-40 && mouseY <= y+40) {
+    return true;
+  } else {
+    return false;
+  }
 }
